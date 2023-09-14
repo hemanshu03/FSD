@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<title>Student Registration</title>
+
+<style>
+  body {
+    font-family:'Montserrat';
+    font-weight: lighter;
+    color: #ffffff;
+    background-color: rgb(0, 0, 0);
+  }
+
+  .container {
+    max-width: 500px;
+    background-color: #001a49;
+    margin: 0 auto;
+    border: 1.5px solid rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    min-width: 450px;
+  }
+  
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 1000px;    
+}
+
+  h1 {
+    text-align: center;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="tel"],
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  input[type="submit"] {
+    background-color: #0099ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-content: center;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #046343;
+  }
+</style>
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+    <h1>Student Registration Form</h1>
+    <form id="registrationForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email ID:</label>
+        <input type="email" id="email" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="gender">Gender:</label>
+        <label><input type="radio" name="gender" value="male">Male</label>
+        <label><input type="radio" name="gender" value="female">Female</label>
+
+        <label for="mobile">Mobile Number
+            <span style="color: rgb(247, 120, 120);"><u><b>(Please Enter 10 digit mobile number)</u></b></span> :
+        </label>
+        <input type="tel" id="mobile" pattern="[0-9]{10}" required maxlength="10">
+
+        <label for="pincode">PIN Code 
+            <span style="color: rgb(247, 120, 120);"><u><b>(Please enter PIN-Code according to your country)</u></b></span> :
+        </label>
+        <input type="text" id="pincode" required>
+
+        <label for="country">Country:</label>
+        <select id="country" required>
+        <option value="india">India</option>
+        <option value="usa">USA</option>
+        <option value="canada">Canada</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+
+<script>
+  var form = document.getElementById('registrationForm');
+  var emailInput = document.getElementById('email');
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+  form.addEventListener('submit', function(event) {
+    var name = document.getElementById('name').value;
+    var email = emailInput.value;
+    var dob = document.getElementById('dob').value;
+    var gender = document.querySelector('input[name="gender"]:checked');
+    var mobile = document.getElementById('mobile').value;
+    var pincode = document.getElementById('pincode').value;
+    var country = document.getElementById('country').value;
+    var pin = document.getElementById('pincode');
+
+    if (!name || !email || !dob || !gender || !mobile || !pincode || !country) {
+      event.preventDefault();
+      alert('Please fill in all fields.');
+    } else if (!emailRegex.test(email)) {
+      event.preventDefault();
+      alert('Please enter a valid email address.');
+    } else if (country === 'India') {
+      event.preventDefault();
+      pin.setAttribute("maxlength", "6");
+    } else if ((country === 'USA' || country === 'Canada')) {
+      event.preventDefault();
+      pin.setAttribute("maxlength", "4");
+    }
+  });
+</script>
+</body>
+</html>
