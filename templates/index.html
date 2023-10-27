@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatting App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #000000;
+            color: #fff;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .container {
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .chat-box {
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-box {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            overflow-wrap: break-word;
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .message-box-input {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        .text-box {
+            display: flex;
+            padding: 10px;
+            background-color: #004280;
+            flex-direction: row-reverse;
+            position:relative;
+        }
+
+        .text-input {
+            flex: 1;
+            border: 1px solid #8f8d8d;
+            padding: 5px;
+        }
+
+        .send-button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Online Chatting Interface</h1>
+    </div>
+    <div class="container">
+        <div class="chat-box">
+            <div class="message-box" id="messageBoxInput" contenteditable="false" placeholder="Your Messages will appear here..."></div>
+        </div>
+        <div class="text-box">
+            <input type="text" class="text-input" id="messageInput" placeholder="Type your message..." onkeydown="handleKeyPress(event)">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var messageInput = document.getElementById("messageInput");
+            var messageBoxInput = document.getElementById("messageBoxInput");
+
+            var message = messageInput.value;
+            if (message.trim() !== "") {
+                
+                fetch('https://httpbin.org/ip')
+                    .then(response => response.json())
+                    .then(data => {
+                        const ipAddress = data.origin;
+                        const fullMessage = `User_${ipAddress}: ${message}`;
+                        const messageDiv = document.createElement("div");
+                        messageDiv.innerHTML = `<span style="font-weight: bold; color: red;">User_${ipAddress}</span><span style="font-weight: bold; color: white;">:</span> <span style="font-weight: normal; color: white;">${message}</span>`;
+                        messageBoxInput.appendChild(messageDiv);
+                })
+                .catch(error => {
+                    console.error('Error fetching IP address: ' + error);
+                });
+                messageInput.value = "";
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>

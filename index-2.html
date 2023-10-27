@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Auto Refresh</title>
+</head>
+<body>
+    <h1 id="content">Initial Content</h1>
+    <script>
+        function refreshContent() {
+            // Use JavaScript to update the content
+            var contentElement = document.getElementById("content");
+            contentElement.innerHTML = "New Content: " + new Date().toLocaleString();
+        }
+
+        // Set an interval to refresh the content every 200 milliseconds
+        setInterval(refreshContent, 200);
+    </script>
+</body>
+</html>
