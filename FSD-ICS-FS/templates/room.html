@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="message-box">
+  <style>
+    button {
+      background-color: #3498db;
+      transition: background-color 0.3s;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 15px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .create-btn {
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 15px;
+      margin-top: 10px;
+    }
+
+    .create-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* Center horizontally and vertically */
+      background-color: black;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      opacity: 0;
+      border-radius: 5px;
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .popup p,
+    .popup button {
+      text-align: center;
+      margin-bottom: 10px;
+      /* Add space between the text and buttons */
+    }
+  </style>
+  <h2>Chat Room: {{code}}</h2>
+  <button type="button" name="delete" id="delete-btn"
+    style="width: fit-content; align-self: center; background-color: rgb(233, 39, 39); transition: background-color 0.3s;"
+    onmouseover="this.style.backgroundColor='rgb(148, 0, 0)'"
+    onmouseout="this.style.backgroundColor='rgb(233, 39, 39)'">
+    Delete this chatroom?
+  </button>
+
+  <div class="messages" id="messages"></div>
+  <div class="inputs">
+    <input type="text" rows="3" placeholder="Message" name="message" id="message" onkeypress="handleKeyPress(event)" />
+    <button type="button" name="send" id="send-btn" onClick="sendMessage()">
+      Send
+    </button>
+  </div>
+</div>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+      socket.on('connect', function () {
+        socket.emit('my event', { data: 'I\'m connected!' });
+      });
+
+      socket.on('message', function (msg) {
+        $('#messages').append($('<li>').text(msg.data));
+      });
+
+      // File upload handling
+      const fileInput = document.getElementById("fileInput");
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = (event) => {
+            const fileContent = event.target.result;
+
+            const fileInfo = {
+              content: fileContent,
+              fileName: file.name,
+            };
+
+            socket.emit("file_message", fileInfo);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      $('#messageForm').submit(function (event) {
+        event.preventDefault();
+        socket.emit('message', { data: $('#m').val() });
+        $('#m').val('');
+        return false;
+      });
+    });
+  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+  
+        socket.on('connect', function () {
+          socket.emit('my event', { data: 'I\'m connected!' });
+        });
+  
+        socket.on('message', function (msg) {
+          $('#messages').append($('<li>').text(msg.data));
+        });
+  
+        // File upload handling
+        const fileInput = document.getElementById("fileInput");
+  
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files[0];
+  
+          if (file) {
+            const reader = new FileReader();
+  
+            reader.onload = (event) => {
+              const fileContent = event.target.result;
+  
+              const fileInfo = {
+                content: fileContent,
+                fileName: file.name,
+              };
+  
+              socket.emit("file_message", fileInfo);
+            };
+  
+            reader.readAsDataURL(file);
+          }
+        });
+  
+        $('#messageForm').submit(function (event) {
+          event.preventDefault();
+          socket.emit('message', { data: $('#m').val() });
+          $('#m').val('');
+          return false;
+        });
+      });
+    </script>
+  </script>
+
+{% for msg in messages %}
+<script type="text/javascript">
+  var jsonString = msg.message;
+  var parsedData = JSON.parse(jsonString);
+  createMessage("{{msg.name}}", "{{parsedData}}");
+</script>
+{% endfor %}
+{% endblock %}

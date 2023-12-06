@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <link rel="icon" href="/static/ICON.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncSphere</title>
+  <style>
+    body {
+      background-image: url('/static/bkg-img.jpg');
+      background-size: cover;
+      /* This value scales the background image to cover the entire container */
+      background-position: center center;
+      /*background-repeat: no-repeat;*/
+      color: white;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .create-btn {
+      background-color: #3498db;
+      transition: background-color 0.3s;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 15px;
+      margin-top: 10px;
+    }
+
+    .create-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .message-box {
+      border-color: black;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 10px;
+      background-color: whitesmoke;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      width: 80vw;
+      align-items: stretch;
+    }
+
+    .messages {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      overflow-y: scroll;
+      flex: 1;
+      width: 100%;
+      color: black;
+    }
+
+    .inputs {
+      padding: 10px;
+      display: flex;
+    }
+
+    h2 {
+      text-align: center;
+      display: block;
+      color: gray;
+      font-family: monospace;
+      font-size: 1.5em;
+      margin-block-start: 0.83em;
+      margin-block-end: 0.83em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+    }
+
+    #message {
+      flex: 1;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+
+    .text {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .muted {
+      font-size: 10px;
+      color: darkgray;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media only screen and (max-width: 600px) {
+      .content {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      .message-box {
+        width: 100%;
+      }
+
+      .join {
+        width: 100%;
+      }
+    }
+
+    @media only screen and (min-width: 601px) and (max-width: 1024px) {
+      .content {
+        padding: 20px;
+      }
+
+      .message-box {
+        width: 80%;
+      }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="content">{% block content %} {% endblock %}</div>
+</body>
+
+</html>

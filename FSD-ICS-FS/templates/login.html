@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body>
+    <style>
+        h3 {
+            color: white;
+            align-text: center;
+        }
+
+        label {
+            color: white;
+        }
+
+        input {
+            margin-right: 10px;
+            border-radius: 20px;
+            padding-right: 5px;
+            padding-left: 5px;
+            padding: 5px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .create-btn {
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+
+        .create-btn:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            color: red;
+        }
+        .eye-icon {
+            cursor: pointer;
+            
+            color: white;
+            /* Adjust this as needed */
+        }
+    </style>
+    <form method="post" class="buttons">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var usernameInput = document.getElementById('name');
+                var passwordInput = document.getElementById('password');
+        
+                usernameInput.setAttribute('autocomplete', 'on');
+                passwordInput.setAttribute('autocomplete', 'on');
+            });
+        </script>
+        <h4 style="color: white;">{{registration_status}}</h4>
+        <h3>Authentication</h3>
+        <div>
+            <label>Username:</label>
+            <input type="text" placeholder="Username" name="name" value="{{name}}" />
+        </div>
+        <div class="join">
+            <span>
+                <label>Password:</label>
+                <input type="password" placeholder="Password" name="password" id="password" value="{{password}}" />
+                <span class="eye-icon" onclick="togglePasswordVisibility('password')" style="background-color: transparent;">&#128065;</span>
+            </span>
+        </div>
+        <button style="margin-top: 5px; width: 100px" type="submit" name="login">Login</button>
+        <button style="margin-top: 100px; margin-bottom: 50px; border-radius: 5px; padding: 10px" type="submit" name="create" class="create-btn">Create an account</button>
+        <button style="margin-top: 50px; width: 150px" type="submit" name="forgot_p">Forgot Password?</button>
+        {% if error %}
+        <ul>
+            <li>{{error}}</li>
+        </ul>
+        {% endif %}
+        <script>
+            // JavaScript function to toggle password visibility
+            function togglePasswordVisibility(elementId) {
+                const passwordInput = document.getElementById(elementId);
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+            }
+        </script>
+    </form>
+</body>
+{% endblock %}
